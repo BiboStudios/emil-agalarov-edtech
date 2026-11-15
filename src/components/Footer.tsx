@@ -18,7 +18,7 @@ export const Footer: React.FC = () => {
               <h4 className="text-white font-bold text-lg">{teacherName}</h4>
             </div>
             <p className="text-sm text-slate-400 leading-relaxed">
-              İngilis dili tədrisində müasir metodologiya, General English (A1-B2) və IELTS hazırlıq proqramları üzrə fərdi və qrup dərsləri.
+              11-ci sinif buraxılış imtahanına hazırlıq, DİM qəbul standartları, qrammatika, mətn oxusu və dinləmə üzrə peşəkar fərdi və qrup dərsləri.
             </p>
           </div>
 
@@ -68,7 +68,7 @@ export const Footer: React.FC = () => {
           <div className="flex items-center gap-2 bg-navy-900/80 px-4 py-2 rounded-full border border-navy-700">
             <span className="text-amber-400 animate-pulse">🎉</span>
             <span className="text-slate-300 font-medium">
-              Ad günün mübarək, <strong className="text-emerald-400">Emil</strong>! Gələcək müəllimlik fəaliyyətində bol-bol uğurlar!
+              Ad günün mübarək, <strong className="text-emerald-400">Emil</strong>! Gələcək müəllimlik fəaliyyətində bol-bol uğurlar! — <span className="text-amber-300 font-semibold">Hörmətlə, Həbib Ağalarzadə</span>
             </span>
             <button
               onClick={() => {

@@ -1,6 +1,6 @@
 export type UserRole = 'teacher' | 'student';
 
-export type EnglishLevel = 'A1' | 'A2' | 'B1' | 'B2' | 'IELTS' | 'All';
+export type EnglishLevel = 'A1' | 'A2' | 'B1' | 'B2' | '11-ci Sinif' | 'All';
 
 export interface Student {
   id: string;

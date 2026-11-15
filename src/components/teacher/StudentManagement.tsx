@@ -331,7 +331,7 @@ export const StudentManagement: React.FC<StudentManagementProps> = ({
                     <option value="A2">A2 (Elementar)</option>
                     <option value="B1">B1 (Orta Səviyyə)</option>
                     <option value="B2">B2 (Yuxarı Orta)</option>
-                    <option value="IELTS">IELTS Hazırlıq</option>
+                    <option value="11-ci Sinif">11-ci Sinif Buraxılış Hazırlığı</option>
                   </select>
                 </div>
 

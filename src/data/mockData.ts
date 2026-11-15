@@ -44,7 +44,7 @@ export const INITIAL_STUDENTS: Student[] = [
     accessCode: 'FARI-2026',
     joinedDate: '2026-08-15',
     email: 'farid.gasimov@code.edu.az',
-    notes: 'IELTS hədəfi var. Writing esseləri üzərində əlavə çalışır.'
+    notes: '11-ci sinif buraxılış imtahanında 100 bal hədəfləyir. Qapalı və açıq tipli DİM testləri üzərində əlavə çalışır.'
   },
   {
     id: 'stu-4',
@@ -203,7 +203,7 @@ export const INITIAL_EXAMS: ExamResult[] = [
     vocabularyScore: 21,
     totalScore: 87,
     maxScore: 100,
-    teacherFeedback: 'Writing tapşırıqlarında cümlə zənginliyi artır. IELTS formatına uyğun sınaqlara başlamaq vaxtıdır.'
+    teacherFeedback: 'DİM tipli sınaq testlərində cümlə tamamlama və mətn suallarında nəticəsi yüksəkdir. 11-ci sinif buraxılış imtahanına tam hazırdır.'
   },
   {
     id: 'exam-302',
@@ -659,7 +659,7 @@ export const INITIAL_FLASHCARD_DECKS: FlashcardDeck[] = [
         front: 'Achieve',
         back: 'Nail olmaq, qazanmaq',
         phonetic: '/əˈtʃiːv/',
-        exampleSentence: 'With hard work, you can achieve a band score 7.5 in IELTS.',
+        exampleSentence: 'With hard work, you can get 100 points in the 11th grade graduation exam.',
         level: 'B1'
       }
     ]

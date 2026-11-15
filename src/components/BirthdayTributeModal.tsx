@@ -23,7 +23,7 @@ export const BirthdayTributeModal: React.FC = () => {
                 🎉
               </span>
               <p className="font-medium truncate">
-                <span className="font-bold text-yellow-300">Xüsusi Təbrik:</span> Ad günün mübarək, Emil! Gələcək müəllimlik fəaliyyətində bol-bol uğurlar!
+                <span className="font-bold text-yellow-300">Xüsusi Təbrik:</span> Ad günün mübarək, Emil! 11-ci sinif buraxılış imtahanına hazırlıqda və müəllimlik fəaliyyətində bol uğurlar! — <span className="text-yellow-200 font-semibold">Hörmətlə, Həbib Ağalarzadə</span>
               </p>
             </div>
             <div className="flex items-center gap-2 shrink-0">
@@ -80,11 +80,15 @@ export const BirthdayTributeModal: React.FC = () => {
             <div className="p-6 space-y-4">
               <div className="p-4 rounded-xl bg-slate-50 border border-slate-200/80 text-slate-700 text-sm leading-relaxed">
                 <p className="mb-2.5">
-                  Hörmətli və sevimli <strong>Emil Ağalarov</strong>, bu portal sənin tələbələrinə ingilis dilini ən müasir, rahat və zövqlü şəkildə öyrətməyin, onların inkişafına daim bələdçilik etməyin üçün xüsusi olaraq hazırlandı.
+                  Hörmətli və sevimli <strong>Emil Ağalarov</strong>, bu portal sənin 11-ci sinif şagirdlərinə buraxılış imtahanlarına ən müasir, rahat və zövqlü şəkildə hazırlaşmağın, onların inkişafına daim bələdçilik etməyin üçün xüsusi olaraq hazırlandı.
                 </p>
                 <p className="text-slate-600">
-                  Arzu edirik ki, yetirdiyin hər bir tələbə ingilis dilində ən yüksək IELTS nəticələrini qazansın və sənin adını daim qürurla çəksin! 🌟
+                  Arzu edirik ki, yetirdiyin hər bir şagird 11-ci sinif buraxılış imtahanında ən yüksək nəticələri göstərsin, 100/100 bal toplasın və sənin adını daim qürurla çəksin! 🌟
                 </p>
+                <div className="mt-3 pt-3 border-t border-slate-200/80 text-right">
+                  <span className="text-xs text-slate-500 block">Dərin hörmət və ən xoş arzularla,</span>
+                  <span className="text-sm font-bold text-navy-950">Həbib Ağalarzadə</span>
+                </div>
               </div>
 
               <div className="grid grid-cols-2 gap-3 text-xs">

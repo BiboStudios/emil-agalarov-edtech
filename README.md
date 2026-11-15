@@ -15,7 +15,7 @@ Bu layihə peşəkar ingilis dili müəllimi **Emil Ağalarov** üçün xüsusi 
   - Cari davamiyyət göstəricisi və dərs iştirak nisbəti.
 - **Tələbələrin İdarə Edilməsi (Student Management CRUD):**
   - Tələbə əlavə etmə, redaktə etmə və silmə.
-  - Səviyyə/Qrup təyini (A1, A2, B1, B2, IELTS).
+  - Səviyyə/Qrup təyini (A1, A2, B1, B2, 11-ci Sinif Buraxılış).
   - Valideyn telefon nömrəsi və aylıq ödəniş məbləği.
   - Hər tələbə üçün unikal 8 simvollu giriş kodu (məs: `MURA-2026`). 1-kliklə kopyalama imkanı.
 - **Davamiyyət Jurnalı (Attendance Tracker):**
@@ -64,7 +64,7 @@ Bu layihə peşəkar ingilis dili müəllimi **Emil Ağalarov** üçün xüsusi 
 
 ### 3. Xüsusi Ad Günü Təbriki (Birthday Tribute) 🎂
 - Tətbiqdə Emil Ağalarov üçün xüsusi hazırlanmış təbrik mesajı mövcuddur:
-  > *"Ad günün mübarək, Emil! Gələcək müəllimlik fəaliyyətində bol-bol uğurlar!"*
+  > *"Ad günün mübarək, Emil! 11-ci sinif buraxılış imtahanına hazırlıqda və müəllimlik fəaliyyətində bol-bol uğurlar! — Hörmətlə, Həbib Ağalarzadə"*
 - Müəllim panelinə ilk girişdə bayram bildirişi çıxır və zərif konfeti animasiyası oynayır.
 - Saytın alt hissəsində (Footer) və yuxarı menyusunda hər zaman təbriki yenidən açmaq və konfeti uçurtmaq mümkündür!
 

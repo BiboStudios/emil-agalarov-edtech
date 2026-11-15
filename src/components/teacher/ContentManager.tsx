@@ -445,7 +445,7 @@ export const ContentManager: React.FC<ContentManagerProps> = ({
                     <option value="A2">A2</option>
                     <option value="B1">B1</option>
                     <option value="B2">B2</option>
-                    <option value="IELTS">IELTS</option>
+                    <option value="11-ci Sinif">11-ci Sinif Buraxılış</option>
                   </select>
                 </div>
               </div>
