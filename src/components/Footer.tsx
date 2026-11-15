@@ -18,7 +18,7 @@ export const Footer: React.FC = () => {
               <h4 className="text-white font-bold text-lg">{teacherName}</h4>
             </div>
             <p className="text-sm text-slate-400 leading-relaxed">
-              11-ci sinif buraxılış imtahanına hazırlıq, DİM qəbul standartları, qrammatika, mətn oxusu və dinləmə üzrə peşəkar fərdi və qrup dərsləri.
+              Şagirdlərin buraxılış və qəbul imtahanlarına hazırlığı, DİM standartları, qrammatika, mətn oxusu və dinləmə üzrə peşəkar fərdi və qrup dərsləri.
             </p>
           </div>
 
