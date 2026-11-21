@@ -15,7 +15,9 @@ import {
   Video,
   FileQuestion,
   Layers,
-  FileText
+  FileText,
+  Lock,
+  Shield
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { Student } from '../types';
@@ -24,14 +26,19 @@ interface NavbarProps {
   currentTab: string;
   setCurrentTab: (tab: string) => void;
   students: Student[];
+  onOpenSecurityModal: () => void;
 }
 
-export const Navbar: React.FC<NavbarProps> = ({ currentTab, setCurrentTab, students }) => {
+export const Navbar: React.FC<NavbarProps> = ({
+  currentTab,
+  setCurrentTab,
+  students,
+  onOpenSecurityModal
+}) => {
   const {
     role,
     currentStudent,
     teacherName,
-    loginAsTeacher,
     loginAsDemoStudent,
     logout,
     setShowBirthdayModal,
@@ -109,8 +116,20 @@ export const Navbar: React.FC<NavbarProps> = ({ currentTab, setCurrentTab, stude
             })}
           </nav>
 
-          {/* Right Action: Role Switcher & Birthday Button */}
+          {/* Right Action: Security, Birthday, and Role Menu */}
           <div className="flex items-center gap-2">
+            {/* Security Settings Button (Only for Teacher) */}
+            {role === 'teacher' && (
+              <button
+                onClick={onOpenSecurityModal}
+                title="Kibertəhlükəsizlik və Audit Ayarları"
+                className="p-2 rounded-xl bg-slate-100 hover:bg-emerald-50 text-slate-700 hover:text-emerald-700 border border-slate-200 hover:border-emerald-200 transition-all flex items-center gap-1.5 text-xs font-semibold shadow-sm"
+              >
+                <ShieldCheck className="w-4 h-4 text-emerald-600" />
+                <span className="hidden sm:inline">Təhlükəsizlik</span>
+              </button>
+            )}
+
             {/* Birthday Celebration Trigger */}
             <button
               onClick={() => {
@@ -153,70 +172,94 @@ export const Navbar: React.FC<NavbarProps> = ({ currentTab, setCurrentTab, stude
               {/* Role Dropdown */}
               {roleMenuOpen && (
                 <div
-                  className="absolute right-0 mt-2 w-64 bg-white rounded-xl shadow-xl border border-slate-200 py-2 z-50 animate-in fade-in zoom-in-95 duration-150"
+                  className="absolute right-0 mt-2 w-72 bg-white rounded-xl shadow-xl border border-slate-200 py-2 z-50 animate-in fade-in zoom-in-95 duration-150"
                   onClick={() => setRoleMenuOpen(false)}
                 >
                   <div className="px-3 py-1.5 text-[11px] font-semibold text-slate-400 uppercase tracking-wider">
-                    Rol və Giriş Rejimi
+                    Cari Sessiya Məlumatı
                   </div>
 
-                  {/* Switch to Teacher */}
-                  <button
-                    onClick={() => {
-                      loginAsTeacher();
-                      setCurrentTab('overview');
-                    }}
-                    className={`w-full text-left px-3 py-2 flex items-center gap-2.5 text-xs font-medium ${
-                      role === 'teacher' ? 'bg-navy-50 text-navy-900 font-semibold' : 'text-slate-700 hover:bg-slate-50'
-                    }`}
-                  >
-                    <div className="w-7 h-7 rounded-lg bg-navy-900 text-white flex items-center justify-center shrink-0">
-                      <ShieldCheck className="w-4 h-4 text-emerald-400" />
-                    </div>
-                    <div>
-                      <div className="font-bold">Müəllim Paneli (Admin)</div>
-                      <div className="text-[10px] text-slate-500">Emil Ağalarov • Bütün idarəetmə</div>
-                    </div>
-                  </button>
-
-                  <div className="border-t border-slate-100 my-1"></div>
-                  <div className="px-3 py-1.5 text-[11px] font-semibold text-slate-400 uppercase tracking-wider">
-                    Tələbə / Valideyn kimi bax:
-                  </div>
-
-                  {/* Sample Students Quick Select */}
-                  <div className="max-h-48 overflow-y-auto">
-                    {students.map(s => (
-                      <button
-                        key={s.id}
-                        onClick={() => {
-                          loginAsDemoStudent(s.id);
-                          setCurrentTab('portal-overview');
-                        }}
-                        className={`w-full text-left px-3 py-1.5 flex items-center justify-between text-xs hover:bg-slate-50 ${
-                          currentStudent?.id === s.id ? 'bg-emerald-50 text-emerald-900 font-bold' : 'text-slate-700'
-                        }`}
-                      >
-                        <div className="flex items-center gap-2">
-                          <span className="w-5 h-5 rounded-full bg-slate-200 text-slate-700 flex items-center justify-center text-[10px] font-bold">
-                            {s.name[0]}
-                          </span>
-                          <span className="truncate">{s.name}</span>
+                  {role === 'teacher' ? (
+                    <>
+                      <div className="px-3 py-2 bg-navy-50/70 border-y border-navy-100 flex items-center gap-2.5">
+                        <div className="w-8 h-8 rounded-lg bg-navy-900 text-white flex items-center justify-center shrink-0">
+                          <ShieldCheck className="w-4 h-4 text-emerald-400" />
                         </div>
-                        <span className="text-[10px] px-1.5 py-0.5 rounded bg-slate-100 text-slate-600 font-medium">
-                          {s.group}
-                        </span>
+                        <div>
+                          <div className="font-bold text-xs text-navy-950">Emil Ağalarov (Admin)</div>
+                          <div className="text-[10px] text-emerald-700 font-medium">Təhlükəsiz Sessiya Aktivdir</div>
+                        </div>
+                      </div>
+
+                      <button
+                        onClick={onOpenSecurityModal}
+                        className="w-full text-left px-3 py-2 flex items-center gap-2 text-xs text-slate-700 hover:bg-slate-50 transition-colors"
+                      >
+                        <Lock className="w-3.5 h-3.5 text-emerald-600" />
+                        <span>Şifrəni Dəyiş və Audit Jurnalı</span>
                       </button>
-                    ))}
-                  </div>
+
+                      <div className="border-t border-slate-100 my-1"></div>
+                      <div className="px-3 py-1.5 text-[11px] font-semibold text-slate-400 uppercase tracking-wider">
+                        Şagird/Valideyn Kabinetinə Baxış:
+                      </div>
+
+                      <div className="max-h-40 overflow-y-auto">
+                        {students.map(s => (
+                          <button
+                            key={s.id}
+                            onClick={() => {
+                              loginAsDemoStudent(s.id);
+                              setCurrentTab('portal-overview');
+                            }}
+                            className={`w-full text-left px-3 py-1.5 flex items-center justify-between text-xs hover:bg-slate-50 ${
+                              currentStudent?.id === s.id ? 'bg-emerald-50 text-emerald-900 font-bold' : 'text-slate-700'
+                            }`}
+                          >
+                            <span className="truncate">{s.name}</span>
+                            <span className="text-[10px] px-1.5 py-0.5 rounded bg-slate-100 text-slate-600 font-medium">
+                              {s.group}
+                            </span>
+                          </button>
+                        ))}
+                      </div>
+                    </>
+                  ) : (
+                    <>
+                      <div className="px-3 py-2 bg-emerald-50/70 border-y border-emerald-100 flex items-center gap-2.5">
+                        <div className="w-8 h-8 rounded-lg bg-emerald-600 text-white flex items-center justify-center shrink-0 font-bold text-xs">
+                          {currentStudent?.name[0] || 'T'}
+                        </div>
+                        <div>
+                          <div className="font-bold text-xs text-navy-950">{currentStudent?.name}</div>
+                          <div className="text-[10px] text-slate-500">{currentStudent?.group} Qrupu • Kod: {currentStudent?.accessCode}</div>
+                        </div>
+                      </div>
+
+                      <div className="p-2">
+                        <div className="p-2.5 rounded-lg bg-amber-50 border border-amber-200 text-[11px] text-amber-900 leading-snug">
+                          <span className="font-bold block mb-0.5">🔒 Qorunan Panel:</span>
+                          Müəllim panelinə giriş yalnız Emil Ağalarovun şifrəsi ilə mümkündür.
+                        </div>
+                      </div>
+
+                      <button
+                        onClick={logout}
+                        className="w-full text-left px-3 py-2 flex items-center gap-2 text-xs text-navy-900 hover:bg-slate-50 font-semibold"
+                      >
+                        <Shield className="w-3.5 h-3.5 text-navy-700" />
+                        <span>Müəllim Girişi Səhifəsinə Keç</span>
+                      </button>
+                    </>
+                  )}
 
                   <div className="border-t border-slate-100 my-1"></div>
                   <button
                     onClick={logout}
-                    className="w-full text-left px-3 py-2 flex items-center gap-2 text-xs text-rose-600 hover:bg-rose-50"
+                    className="w-full text-left px-3 py-2 flex items-center gap-2 text-xs text-rose-600 hover:bg-rose-50 font-medium"
                   >
                     <LogOut className="w-3.5 h-3.5" />
-                    <span>Çıxış et</span>
+                    <span>Təhlükəsiz Çıxış Et</span>
                   </button>
                 </div>
               )}
@@ -260,6 +303,18 @@ export const Navbar: React.FC<NavbarProps> = ({ currentTab, setCurrentTab, stude
               </button>
             );
           })}
+          {role === 'teacher' && (
+            <button
+              onClick={() => {
+                setMobileMenuOpen(false);
+                onOpenSecurityModal();
+              }}
+              className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-emerald-700 bg-emerald-50 hover:bg-emerald-100 transition-all"
+            >
+              <ShieldCheck className="w-5 h-5 text-emerald-600" />
+              <span>Təhlükəsizlik və Audit Jurnalı</span>
+            </button>
+          )}
         </div>
       )}
     </header>

@@ -2,15 +2,28 @@ import React, { createContext, useContext, useState, useEffect } from 'react';
 import confetti from 'canvas-confetti';
 import { UserRole, Student } from '../types';
 import { dbService, initializeDatabase } from '../services/db';
+import {
+  initializeSecurity,
+  verifyTeacherCredentials,
+  changeTeacherPassword,
+  isSessionValid,
+  terminateSession,
+  getSecurityAuditLogs,
+  SecurityAuditLog,
+  AuthResult
+} from '../services/security';
 
 interface AuthContextType {
   role: UserRole | null;
   currentStudent: Student | null;
   teacherName: string;
-  loginAsTeacher: () => void;
+  loginAsTeacher: (username: string, password: string) => Promise<AuthResult>;
   loginWithStudentCode: (code: string) => Promise<boolean>;
   loginAsDemoStudent: (studentId: string) => Promise<boolean>;
   logout: () => void;
+  updatePassword: (currentPass: string, newPass: string) => Promise<{ success: boolean; error?: string }>;
+  auditLogs: SecurityAuditLog[];
+  refreshAuditLogs: () => void;
   showBirthdayModal: boolean;
   setShowBirthdayModal: (val: boolean) => void;
   triggerBirthdayConfetti: () => void;
@@ -21,11 +34,26 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  // CRITICAL SECURITY FIX: Never default to 'teacher'! Only authenticated sessions can have 'teacher' role
   const [role, setRole] = useState<UserRole | null>(() => {
-    return (localStorage.getItem('emil_auth_role') as UserRole) || 'teacher';
+    const savedRole = localStorage.getItem('emil_auth_role') as UserRole;
+    if (savedRole === 'teacher') {
+      // Validate session token and expiration
+      if (isSessionValid()) {
+        return 'teacher';
+      } else {
+        localStorage.removeItem('emil_auth_role');
+        return null;
+      }
+    } else if (savedRole === 'student') {
+      return 'student';
+    }
+    return null;
   });
+
   const [currentStudent, setCurrentStudent] = useState<Student | null>(null);
   const [showBirthdayModal, setShowBirthdayModal] = useState<boolean>(false);
+  const [auditLogs, setAuditLogs] = useState<SecurityAuditLog[]>([]);
   const [hasShownBirthdayWelcome, setHasShownBirthdayWelcome] = useState<boolean>(() => {
     return localStorage.getItem('emil_bday_welcome_seen') === 'true';
   });
@@ -34,6 +62,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   useEffect(() => {
     initializeDatabase();
+    initializeSecurity().then(() => {
+      setAuditLogs(getSecurityAuditLogs());
+    });
 
     // If initial role was student, restore current student
     const savedStudentId = localStorage.getItem('emil_auth_student_id');
@@ -42,18 +73,24 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         if (s) {
           setCurrentStudent(s);
           setRole('student');
+        } else {
+          setRole(null);
         }
       });
     }
 
-    // First time welcome celebration for Emil!
+    // First time welcome celebration for Emil (only if securely authenticated as teacher)!
     const hasSeen = localStorage.getItem('emil_bday_welcome_seen') === 'true';
-    if (!hasSeen && role === 'teacher') {
+    if (!hasSeen && role === 'teacher' && isSessionValid()) {
       setTimeout(() => {
         triggerBirthdayConfetti();
       }, 800);
     }
   }, []);
+
+  const refreshAuditLogs = () => {
+    setAuditLogs(getSecurityAuditLogs());
+  };
 
   const triggerBirthdayConfetti = () => {
     try {
@@ -99,11 +136,26 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   };
 
-  const loginAsTeacher = () => {
-    setRole('teacher');
-    setCurrentStudent(null);
-    localStorage.setItem('emil_auth_role', 'teacher');
-    localStorage.removeItem('emil_auth_student_id');
+  const loginAsTeacher = async (username: string, password: string): Promise<AuthResult> => {
+    const result = await verifyTeacherCredentials(username, password);
+    if (result.success) {
+      setRole('teacher');
+      setCurrentStudent(null);
+      localStorage.setItem('emil_auth_role', 'teacher');
+      localStorage.removeItem('emil_auth_student_id');
+      refreshAuditLogs();
+    } else {
+      refreshAuditLogs();
+    }
+    return result;
+  };
+
+  const updatePassword = async (currentPass: string, newPass: string): Promise<{ success: boolean; error?: string }> => {
+    const res = await changeTeacherPassword(currentPass, newPass);
+    if (res.success) {
+      refreshAuditLogs();
+    }
+    return res;
   };
 
   const loginWithStudentCode = async (code: string): Promise<boolean> => {
@@ -131,10 +183,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   const logout = () => {
+    terminateSession();
     setRole(null);
     setCurrentStudent(null);
     localStorage.removeItem('emil_auth_role');
     localStorage.removeItem('emil_auth_student_id');
+    refreshAuditLogs();
   };
 
   const dismissBirthdayWelcome = () => {
@@ -152,6 +206,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         loginWithStudentCode,
         loginAsDemoStudent,
         logout,
+        updatePassword,
+        auditLogs,
+        refreshAuditLogs,
         showBirthdayModal,
         setShowBirthdayModal,
         triggerBirthdayConfetti,

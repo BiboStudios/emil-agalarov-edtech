@@ -106,17 +106,20 @@ Bu layihə peşəkar ingilis dili müəllimi **Emil Ağalarov** üçün xüsusi 
 
 ---
 
-## 🔑 Demo Giriş Məlumatları (Test Hesabları)
+## 🔒 Kibertəhlükəsizlik və Giriş Məlumatları (Authentication & Security)
 
-Platformada 1-kliklə rollar arasında keçid təmin edilmişdir:
+Tətbiqdə OWASP standartlarına uyğun qorunma təmin edilmişdir:
 
-### 1. Müəllim Paneli:
-- **Rol:** Emil Ağalarov (Admin)
-- **Giriş:** Giriş səhifəsində *"Müəllim Panelinə Daxil Ol"* və ya menyudan *"Müəllim kimi daxil ol"*.
-- **Şifrə:** Demo rejimdə istənilən simvol qəbul edilir və ya 1-kliklə şifrəsiz keçid mövcuddur.
+### 1. Müəllim Paneli (Təhlükəsiz Giriş):
+- **İstifadəçi adı:** `emil.agalarov` (və ya `emil.agalarov@edutech.az`)
+- **İlkin Təhlükəsiz Şifrə:** `EmilTeacher#2026!`
+- **Kriptoqrafiya:** Web Crypto API vasitəsilə SHA-256 + 12-baytlıq unikal kriptoqrafik Salt ilə heşlənir. Açıq mətn kimi saxlanılmır.
+- **Brute-Force Müdafiəsi:** 5 ardıcıl yanlış cəhddən sonra sistem 60 saniyəlik girişləri dondurur.
+- **Sessiya İdarəetməsi:** `crypto.randomUUID()` əsaslı təhlükəsiz sessiya açarı və 2 saatlıq fəaliyyətsizlikdən sonra avtomatik çıxış.
+- **Şifrə Yenilənməsi və Audit Jurnalı:** Müəllim panelində yuxarı sağdakı **"Təhlükəsizlik"** düyməsi vasitəsilə Emil müəllim istədiyi vaxt şifrəsini dəyişə və son giriş/təhlükəsizlik hadisələrini izləyə bilər.
 
-### 2. Valideyn və Tələbə Paneli:
-Aşağıdakı nümunəvi tələbə kodları ilə daxil ola bilərsiniz:
+### 2. Valideyn və Şagird Kabineti:
+Şagirdlər yalnız özlərinə aid 8 simvollu unikal giriş kodu ilə daxil ola bilirlər:
 - **Murad Əliyev (B1):** Kod: `MURA-2026`
 - **Ayan Məmmədova (A2):** Kod: `AYAN-2026`
 - **Fərid Qasımov (B1):** Kod: `FARI-2026`

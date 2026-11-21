@@ -23,6 +23,7 @@ interface TeacherOverviewProps {
   onResetSeedData: () => void;
   onOpenAddStudent: () => void;
   onOpenAddExam: () => void;
+  onOpenSecurityModal?: () => void;
 }
 
 export const TeacherOverview: React.FC<TeacherOverviewProps> = ({
@@ -33,7 +34,8 @@ export const TeacherOverview: React.FC<TeacherOverviewProps> = ({
   onNavigateTab,
   onResetSeedData,
   onOpenAddStudent,
-  onOpenAddExam
+  onOpenAddExam,
+  onOpenSecurityModal
 }) => {
   // 1. Total Active Students
   const totalStudents = students.length;
@@ -103,6 +105,15 @@ export const TeacherOverview: React.FC<TeacherOverviewProps> = ({
               <CalendarCheck className="w-4 h-4 text-emerald-400" />
               <span>Davamiyyəti Qeyd Et</span>
             </button>
+            {onOpenSecurityModal && (
+              <button
+                onClick={onOpenSecurityModal}
+                className="px-4 py-2 bg-white/10 hover:bg-white/20 text-white rounded-xl text-xs sm:text-sm font-semibold transition-all flex items-center gap-1.5 border border-white/20"
+              >
+                <CheckCircle className="w-4 h-4 text-emerald-400" />
+                <span>Kibertəhlükəsizlik və Şifrə</span>
+              </button>
+            )}
           </div>
         </div>
       </div>
@@ -301,6 +312,30 @@ export const TeacherOverview: React.FC<TeacherOverviewProps> = ({
                 );
               })}
             </div>
+          </div>
+
+          {/* Cyber Security Status Card */}
+          <div className="bg-white rounded-2xl p-5 border border-emerald-200/80 shadow-sm text-xs space-y-3">
+            <div className="flex items-center justify-between">
+              <span className="font-bold text-navy-950 flex items-center gap-1.5 text-xs">
+                <CheckCircle className="w-4 h-4 text-emerald-600" />
+                <span>Kibertəhlükəsizlik Statusu</span>
+              </span>
+              <span className="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-bold">
+                Qorunur
+              </span>
+            </div>
+            <p className="text-[11px] text-slate-500 leading-relaxed">
+              Müəllim paneli SHA-256 kriptoqrafik heşlənmə, unikal salt və brute-force hücumlarına qarşı kilidləmə ilə tam mühafizə olunur.
+            </p>
+            {onOpenSecurityModal && (
+              <button
+                onClick={onOpenSecurityModal}
+                className="w-full py-2 px-3 rounded-xl bg-slate-50 hover:bg-emerald-50 text-slate-700 hover:text-emerald-800 border border-slate-200 font-semibold transition-colors flex items-center justify-center gap-1.5 text-xs"
+              >
+                <span>Audit Jurnalı və Şifrə Dəyiş</span>
+              </button>
+            )}
           </div>
 
           {/* Quick Demo Reset Card */}

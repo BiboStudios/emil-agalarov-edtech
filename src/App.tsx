@@ -16,6 +16,7 @@ import { Navbar } from './components/Navbar';
 import { Footer } from './components/Footer';
 import { LoginScreen } from './components/LoginScreen';
 import { BirthdayTributeModal } from './components/BirthdayTributeModal';
+import { SecurityModal } from './components/teacher/SecurityModal';
 
 // Teacher Components
 import { TeacherOverview } from './components/teacher/TeacherOverview';
@@ -53,6 +54,7 @@ export const App: React.FC = () => {
   // Initial trigger modal helpers
   const [openAddStudentModal, setOpenAddStudentModal] = useState(false);
   const [openAddExamModal, setOpenAddExamModal] = useState(false);
+  const [isSecurityModalOpen, setIsSecurityModalOpen] = useState(false);
 
   // Load all initial data from DB service
   const loadData = async () => {
@@ -184,11 +186,18 @@ export const App: React.FC = () => {
       {/* Birthday Celebration Banner and Modal */}
       <BirthdayTributeModal />
 
+      {/* Security and Password Management Modal */}
+      <SecurityModal
+        isOpen={isSecurityModalOpen}
+        onClose={() => setIsSecurityModalOpen(false)}
+      />
+
       {/* Main Top Navigation */}
       <Navbar
         currentTab={currentTab}
         setCurrentTab={setCurrentTab}
         students={students}
+        onOpenSecurityModal={() => setIsSecurityModalOpen(true)}
       />
 
       {/* Main App Content Area */}
@@ -217,6 +226,7 @@ export const App: React.FC = () => {
                   setCurrentTab('exams');
                   setOpenAddExamModal(true);
                 }}
+                onOpenSecurityModal={() => setIsSecurityModalOpen(true)}
               />
             )}
 
